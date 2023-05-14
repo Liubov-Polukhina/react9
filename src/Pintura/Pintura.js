@@ -1,5 +1,6 @@
 import  React, {useEffect, useState } from 'react';
-import { Pop, Overlay, Boton3, BotonX, Nombre, Pic} from "./Pintura.styles";
+import { Pop, Overlay, Boton3, BotonX, Nombre, Pic, Container1} from "./Pintura.styles";
+import { Container } from '../App/App.styles';
 
 function Pintura (props){
 
@@ -17,11 +18,10 @@ function Pintura (props){
 
     return(
         <>
-        <div onClick={abrir}>
-            
+        <Container1 onClick={abrir}>
         <Boton3 > {props.obra.title} {props.obra.artistDisplayName} </Boton3>
-        <img src={props.obra.primaryImageSmall}></img>  
-        </div> 
+        <Pic src={props.obra.primaryImageSmall}></Pic>  
+        </Container1> 
             {info && <Overlay>
             <BotonX onClick={cerrar}> X </BotonX>    
             

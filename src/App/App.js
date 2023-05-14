@@ -1,11 +1,12 @@
 import  React, {useEffect, useState } from 'react';
-import { Boton1, Container, Footer, Side } from "./App.styles";
+import { Boton1, Container, Footer, Side, ContainerL } from "./App.styles";
 import "./App.css";
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
 import Pintura from '../Pintura/Pintura';
 import logo from "../img/logo.webp"
 import Dropdown1 from "../Dropdown/Dropdown1"
+
 
 const App = () => {
   const [usuario, setUsuario] = useState(() =>{
@@ -22,36 +23,30 @@ const App = () => {
   const [pagina, setPagina] = useState(1);
   const [searchInput, setSearchInput] = useState("cats"); 
   const [message, setMessage] = useState('');
-  const [departments, setDepartments] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const [selectedOption, setSelectedOption] = useState("");
-console.log(departments)
   const handleSelect = (option) => {
-    setSelectedOption(option.displayName);
-  };
-
+    setSelectedOption(option);
+    setPagina(1);
+  };
+  
   const crearUsuario = (nuevoUsuario) => {
     setUsuario(nuevoUsuario);
+
+
     try{
       window.localStorage.setItem('usuario',  JSON.stringify(nuevoUsuario));
     }catch (error){
         console.error(error);
     }
   }
+
+
   const actualizaPagina = () => {
     let p = pagina;
     setPagina(p+1)
   }
 
-  useEffect(() => {
-
-    fetch("https://collectionapi.metmuseum.org/public/collection/v1/departments")
-    .then(res => res.json())
-    .then (res=> {
-
-      setDepartments(res.departments);
-    })
-  }, []);
 
   useEffect(() => {
     
@@ -61,6 +56,19 @@ console.log(departments)
       setIdsObra(res.objectIDs);
     })
   }, [searchInput]);
+
+  // Recorrer cada departamento y obtener los objetos correspondientes
+
+  useEffect(() => {
+    fetch(
+      `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${selectedOption?.departmentId}`
+    )
+      .then((res) => res.json())
+      .then((department) => {
+        setIdsObra(department.objectIDs);
+      });
+  }, [selectedOption]);
+
 
   async function fetchAll() {
     let ids = idsObra.slice(pagina*10-10, pagina*10);
@@ -79,50 +87,48 @@ useEffect(() => {
     fetchAll();
  }, [pagina, idsObra]);
   
-
+ const listdeObrasImg = obras?.filter(
+  (obra) => obra.primaryImageSmall
+);
+const tieneImagen = listdeObrasImg?.length > 0;
 
   return (
     <Container>       
         <Side>
-        <img src={logo} width={70} height={70} />
+        <img src={logo} width={70} height={70} margin={10} />
         <div style={{ padding: 20 }}>
             <input icon='search'
                 placeholder='Search...'
                 onChange={(e) => setMessage(e.target.value)}
             /> <button onClick={(e) => setSearchInput(message)}>Update</button> </div>
-
-        {/* <Dropdown departments= {departments}></Dropdown> */}
-        <div>
-          <Dropdown1 options={departments} onSelect={handleSelect} />
-          <p>Selected option: {selectedOption}</p>
-        </div>
-
         
+          <Dropdown1 selectedOption={selectedOption} onSelect={handleSelect} />
+
+        <ContainerL>
         <Login usuario ={usuario}></Login>
         <Signup usuario ={usuario} crearUsuario ={crearUsuario}></Signup>
+        </ContainerL>
       </Side>   
       <>
       {/*Usamos la visualizacion condicional para no mostrar las obras hasta que existan 
       y evitar el error de acceder a elemento indefinido */}
-     {obras.length != 0 && <div>
-      
-      <Pintura  obra = {obras[0]}> </Pintura>
-      <Pintura  obra = {obras[1]}> </Pintura>
-      <Pintura  obra = {obras[2]}> </Pintura>
-      <Pintura  obra = {obras[3]}> </Pintura>
-      <Pintura  obra = {obras[4]}> </Pintura>
-      <Pintura  obra = {obras[5]}> </Pintura>
-      <Pintura  obra = {obras[6]}> </Pintura>
-      <Pintura  obra = {obras[7]}> </Pintura>
-      <Pintura  obra = {obras[8]}> </Pintura>
-      <Pintura  obra = {obras[9]}> </Pintura>
-
-      </div>}     
-
+     {tieneImagen && 
+     <>
+     <div>
+      {obras.map(
+              (obra) =>
+                obra.primaryImageSmall && (
+                  <Pintura obra={obra} key={obra.objectID} />
+                )
+            )}
+      </div>
+      <Boton1 onClick={actualizaPagina}>view more</Boton1>
+      </>}     
+  
 
       </>
       <Footer>
-      <Boton1 onClick={actualizaPagina}>view more</Boton1>
+      Barcelona 2023
       </Footer> 
 
     </Container>

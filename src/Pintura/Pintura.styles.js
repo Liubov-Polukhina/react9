@@ -18,6 +18,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 color: black;
+border: none;
 font-weight: bold;
 width: 100%;
 
@@ -72,4 +73,15 @@ ${mobile}{
     width: 50%;
     height: 50%;
 }
+`;
+
+export const Container1 = styled.div`
+
+background-color: white;
+border-style: solid;
+border-color: black;
+text-align:center;
+font-family: "KievitCyr-ExtraBold";
+font-weight: bold;
+margin: 10px;
 `;

@@ -12,9 +12,8 @@ background-color: black;
 display: flex;
 flex-direction: row;
 align-items: center;
-
+justify-content: space-around;
 width: 100%;
-overflow-x: hidden; 
 
 ${mobile}{
     flex-direction: column;
@@ -25,7 +24,7 @@ ${mobile}{
 export const Footer = styled.div`
 position: relative;
 background-color: black;
-
+color: white;
 padding: 20px;
 text-align: center;
 width: 100%;
@@ -39,7 +38,7 @@ font-family: "KievitCyr-ExtraBold";
 color: grey;
 border-color: grey;
 cursor: pointer;
-
+margin-bottom: 20px;
 `;
 
 export const Container = styled.div`
@@ -49,14 +48,23 @@ flex-direction: column;
 align-items: center;
 margin: 0;
 
-
-background-color: red;
 background-image: url(${img}) ;
 background-position: center;
 
 overflow-x: hidden; 
+
 `;
 
+export const ContainerL = styled.div`
+
+display: flex;
+flex-direction: row;
+align-items: center;
+margin: 10px;
+
+
+overflow-x: hidden; 
+`;
 
 
 
