@@ -1,4 +1,4 @@
-import  React, {useEffect, useState } from 'react';
+import   {useEffect, useState } from 'react';
 import { Boton1, BotonX, Pop, Overlay} from "./Login.styles";
 
 function Login (props){
@@ -45,7 +45,7 @@ return(
 					<label htmlFor="passw">Password</label>
 					<input type="text" name="passw" id="passw"/> 
 				</div>  
-				<button type="submit">Login</button>
+				<button type="button">Login</button>
 			</form>
 		</div>
     
