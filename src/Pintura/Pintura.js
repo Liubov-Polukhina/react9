@@ -1,4 +1,4 @@
-import  React, {useEffect, useState } from 'react';
+import   { useState } from 'react';
 import { Pop, Overlay, Boton3, BotonX, Nombre, Pic, Container1} from "./Pintura.styles";
 import { Container } from '../App/App.styles';
 

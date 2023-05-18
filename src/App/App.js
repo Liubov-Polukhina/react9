@@ -1,4 +1,4 @@
-import  React, {useEffect, useState } from 'react';
+import   {useEffect, useState } from 'react';
 import { Boton1, Container, Footer, Side, ContainerL } from "./App.styles";
 import "./App.css";
 import Login from '../Login/Login';
@@ -32,8 +32,6 @@ const App = () => {
   
   const crearUsuario = (nuevoUsuario) => {
     setUsuario(nuevoUsuario);
-
-
     try{
       window.localStorage.setItem('usuario',  JSON.stringify(nuevoUsuario));
     }catch (error){
@@ -60,13 +58,14 @@ const App = () => {
   // Recorrer cada departamento y obtener los objetos correspondientes
 
   useEffect(() => {
+    if(selectedOption!= null){
     fetch(
       `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${selectedOption?.departmentId}`
     )
       .then((res) => res.json())
       .then((department) => {
         setIdsObra(department.objectIDs);
-      });
+      })};
   }, [selectedOption]);
 
 

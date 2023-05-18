@@ -41,7 +41,7 @@ return(
 					<label htmlFor="passw">Password</label>
 					<input type="text" name="passw" id="passw"/> 
 				</div>  
-				<button type="submit">Sign Up</button>
+				<button type="button">Sign Up</button>
 			</form>
 		</div>
     

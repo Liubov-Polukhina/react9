@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import  { useEffect,useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -115,7 +115,7 @@ const Dropdown1 = ({ onSelect, selectedOption }) => {
 useEffect(() => {
   const getDepartments = async () => {
       const data = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/departments');
-      console.log('data.data.departments', data.data.departments)
+    
       setDepartments(data.data.departments);
   }
   getDepartments();
