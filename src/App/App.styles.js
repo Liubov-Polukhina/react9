@@ -40,6 +40,18 @@ border-color: grey;
 cursor: pointer;
 margin-bottom: 20px;
 `;
+export const Boton2 = styled.button`
+background-color: black;
+align-items: center;
+color: grey;
+border-color: none;
+font-family: "KievitCyr-ExtraBold";
+cursor: pointer;
+border-right: 1px solid #999;
+border-left: none;
+border-top: none;
+`;
+
 
 export const Container = styled.div`
 

@@ -1,5 +1,6 @@
 import   {useEffect, useState } from 'react';
-import { Boton1, Container, Footer, Side, ContainerL } from "./App.styles";
+import { Boton1, Boton2, Container, Footer, Side, ContainerL } from "./App.styles";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
@@ -9,6 +10,9 @@ import Dropdown1 from "../Dropdown/Dropdown1"
 
 
 const App = () => {
+  
+  const navigate = useNavigate();
+  
   const [usuario, setUsuario] = useState(() =>{
     try {
       const item=window.localStorage.getItem('usuario')
@@ -44,7 +48,12 @@ const App = () => {
     let p = pagina;
     setPagina(p+1)
   }
-
+  useEffect(() => {
+    if (usuario.user == null & usuario.pass == null){
+      navigate('/')
+    }
+    
+  }, []);
 
   useEffect(() => {
     
@@ -104,8 +113,7 @@ const tieneImagen = listdeObrasImg?.length > 0;
           <Dropdown1 selectedOption={selectedOption} onSelect={handleSelect} />
 
         <ContainerL>
-        <Login usuario ={usuario}></Login>
-        <Signup usuario ={usuario} crearUsuario ={crearUsuario}></Signup>
+        <Boton2 onClick={() => {navigate('/')}}>LOG OUT</Boton2>
         </ContainerL>
       </Side>   
       <>
