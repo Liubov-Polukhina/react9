@@ -52,6 +52,18 @@ border-left: none;
 border-top: none;
 `;
 
+export const Boton3 = styled.button`
+background-color: black;
+align-items: center;
+color: grey;
+border-color: none;
+font-family: "KievitCyr-ExtraBold";
+cursor: pointer;
+border-right: none;
+border-left: none;
+border-top: none;
+`;
+
 
 export const Container = styled.div`
 

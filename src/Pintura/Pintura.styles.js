@@ -5,12 +5,14 @@ const desktop = `@media (min-width: ${desktopStarWidth}px)`;
 const mobile = `@media (max-width: ${desktopStarWidth}px)`;
 
 export const BotonX = styled.button`
+cursor: pointer;
 background-color: black;
 align-self: left;
 color: grey;
 border-color: none;
 `;
 export const Boton3 = styled.button`
+
 margin-top:15px;
 background-color: transparent;
 font-family: "KievitCyr-ExtraBold";
@@ -76,7 +78,7 @@ ${mobile}{
 `;
 
 export const Container1 = styled.div`
-
+cursor: pointer;
 background-color: white;
 border-style: solid;
 border-color: black;

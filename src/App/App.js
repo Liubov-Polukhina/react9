@@ -1,5 +1,5 @@
-import   {useEffect, useState } from 'react';
-import { Boton1, Boton2, Container, Footer, Side, ContainerL } from "./App.styles";
+import { useEffect, useState } from 'react';
+import { Boton1, Boton3, Container, Footer, Side, ContainerL } from "./App.styles";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 import Login from '../Login/Login';
@@ -10,138 +10,148 @@ import Dropdown1 from "../Dropdown/Dropdown1"
 
 
 const App = () => {
-  
+
   const navigate = useNavigate();
-  
-  const [usuario, setUsuario] = useState(() =>{
+
+  const [usuario, setUsuario] = useState(() => {
     try {
-      const item=window.localStorage.getItem('usuario')
-      return  item ? JSON.parse(item) : {user:null, pass:null}
+      const item = window.localStorage.getItem('usuario')
+      return item ? JSON.parse(item) : { user: null, pass: null }
     }
-    catch(error){
-      return {user:null, pass:null}
-    }}
-    );
+    catch (error) {
+      return { user: null, pass: null }
+    }
+  }
+  );
   const [idsObra, setIdsObra] = useState([]);
   const [obras, setObras] = useState([]);
   const [pagina, setPagina] = useState(1);
-  const [searchInput, setSearchInput] = useState("cats"); 
+  const [searchInput, setSearchInput] = useState("cats");
   const [message, setMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleSelect = (option) => {
     setSelectedOption(option);
     setPagina(1);
-  };
-  
+  };
+
   const crearUsuario = (nuevoUsuario) => {
     setUsuario(nuevoUsuario);
-    try{
-      window.localStorage.setItem('usuario',  JSON.stringify(nuevoUsuario));
-    }catch (error){
-        console.error(error);
+    try {
+      window.localStorage.setItem('usuario', JSON.stringify(nuevoUsuario));
+    } catch (error) {
+      console.error(error);
     }
   }
 
 
   const actualizaPagina = () => {
     let p = pagina;
-    setPagina(p+1)
+    setPagina(p + 1)
   }
+  const menosPagina = () => {
+    let p = pagina;
+    setPagina(p - 1);
+  }
+
   useEffect(() => {
-    if (usuario.user == null & usuario.pass == null){
+    if (usuario.user == null & usuario.pass == null) {
       navigate('/')
     }
-    
+
   }, []);
 
   useEffect(() => {
-    
-    fetch("https://collectionapi.metmuseum.org/public/collection/v1/search?q="+searchInput)
-    .then(res => res.json())
-    .then (res=> {
-      setIdsObra(res.objectIDs);
-    })
+
+    fetch("https://collectionapi.metmuseum.org/public/collection/v1/search?q=" + searchInput)
+      .then(res => res.json())
+      .then(res => {
+        setIdsObra(res.objectIDs);
+      })
   }, [searchInput]);
 
   // Recorrer cada departamento y obtener los objetos correspondientes
 
   useEffect(() => {
-    if(selectedOption!= null){
-    fetch(
-      `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${selectedOption?.departmentId}`
-    )
-      .then((res) => res.json())
-      .then((department) => {
-        setIdsObra(department.objectIDs);
-      })};
+    if (selectedOption != null) {
+      fetch(
+        `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${selectedOption?.departmentId}`
+      )
+        .then((res) => res.json())
+        .then((department) => {
+          setIdsObra(department.objectIDs);
+        })
+    };
   }, [selectedOption]);
 
 
   async function fetchAll() {
-    let ids = idsObra.slice(pagina*10-10, pagina*10);
+    let ids = idsObra.slice(pagina * 10 - 10, pagina * 10);
 
-    if (ids.length === 0){
-        
-      }
-      else {
-    const results = await Promise.all(ids.map((id) => fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/"+id).then((r) => r.json())));
-    setObras(results)
+    if (ids.length === 0) {
 
+    }
+    else {
+      const results = await Promise.all(ids.map((id) => fetch("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + id).then((r) => r.json())));
+      setObras(results)
+
+    }
   }
-}
 
-useEffect(() => {
+  useEffect(() => {
     fetchAll();
- }, [pagina, idsObra]);
-  
- const listdeObrasImg = obras?.filter(
-  (obra) => obra.primaryImageSmall
-);
-const tieneImagen = listdeObrasImg?.length > 0;
+  }, [pagina, idsObra]);
+
+  const listdeObrasImg = obras?.filter(
+    (obra) => obra.primaryImageSmall
+  );
+  const tieneImagen = listdeObrasImg?.length > 0;
 
   return (
-    <Container>       
-        <Side>
+    <Container>
+      <Side>
         <img src={logo} width={70} height={70} margin={10} />
+        <Boton3>INFO</Boton3>
         <div style={{ padding: 20 }}>
-            <input icon='search'
-                placeholder='Search...'
-                onChange={(e) => setMessage(e.target.value)}
-            /> <button onClick={(e) => setSearchInput(message)}>Update</button> </div>
-        
-          <Dropdown1 selectedOption={selectedOption} onSelect={handleSelect} />
+          <input icon='search'
+            placeholder='Search...'
+            onChange={(e) => setMessage(e.target.value)}
+          /> <button onClick={(e) => setSearchInput(message)}>Update</button> </div>
+
+        <Dropdown1 selectedOption={selectedOption} onSelect={handleSelect} />
 
         <ContainerL>
-        <Boton2 onClick={() => {navigate('/')}}>LOG OUT</Boton2>
+          <Boton3 onClick={() => { navigate('/') }}>LOG OUT</Boton3>
         </ContainerL>
-      </Side>   
+      </Side>
       <>
-      {/*Usamos la visualizacion condicional para no mostrar las obras hasta que existan 
+        {/*Usamos la visualizacion condicional para no mostrar las obras hasta que existan 
       y evitar el error de acceder a elemento indefinido */}
-     {tieneImagen && 
-     <>
-     <div>
-      {obras.map(
-              (obra) =>
-                obra.primaryImageSmall && (
-                  <Pintura obra={obra} key={obra.objectID} />
-                )
-            )}
-      </div>
-      <Boton1 onClick={actualizaPagina}>view more</Boton1>
-      </>}     
-  
+        {tieneImagen &&
+          <>
+            <div>
+              {obras.map(
+                (obra) =>
+                  obra.primaryImageSmall && (
+                    <Pintura obra={obra} key={obra.objectID} />
+                  )
+              )}
+            </div>
+            <div>
+              <Boton1 onClick={menosPagina}>return</Boton1>  <Boton1 onClick={actualizaPagina}>next</Boton1>
+            </div>
+          </>}
+
 
       </>
       <Footer>
-      Barcelona 2023
-      </Footer> 
+        Barcelona 2023
+      </Footer>
 
     </Container>
 
 
-    
+
   );
 }
 export default App;
