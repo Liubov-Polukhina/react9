@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Boton1, Boton3, Container, Footer, Side, ContainerL } from "./App.styles";
-import { useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import Login from '../Login/Login';
-import Signup from '../Signup/Signup';
 import Pintura from '../Pintura/Pintura';
 import logo from "../img/logo.webp"
 import Dropdown1 from "../Dropdown/Dropdown1"
+import Info from '../Components/Info';
 
 
 const App = () => {
@@ -35,14 +34,14 @@ const App = () => {
     setPagina(1);
   };
 
-  const crearUsuario = (nuevoUsuario) => {
-    setUsuario(nuevoUsuario);
-    try {
-      window.localStorage.setItem('usuario', JSON.stringify(nuevoUsuario));
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // const crearUsuario = (nuevoUsuario) => {
+  //   setUsuario(nuevoUsuario);
+  //   try {
+  //     window.localStorage.setItem('usuario', JSON.stringify(nuevoUsuario));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
 
   const actualizaPagina = () => {
@@ -59,7 +58,7 @@ const App = () => {
       navigate('/')
     }
 
-  }, []);
+  }, [navigate, usuario.pass, usuario.user]);
 
   useEffect(() => {
 
@@ -101,7 +100,7 @@ const App = () => {
   useEffect(() => {
     fetchAll();
   }, [pagina, idsObra]);
-
+  // without f
   const listdeObrasImg = obras?.filter(
     (obra) => obra.primaryImageSmall
   );
@@ -110,7 +109,12 @@ const App = () => {
   return (
     <Container>
       <Side>
-        <img src={logo} width={70} height={70} margin={10} />
+        <img src={logo} alt="" width={70} height={70} margin={10} />
+
+        <Routes>
+          <Route path="/info/" element={<Info />} />
+        </Routes>
+
         <Boton3>INFO</Boton3>
         <div style={{ padding: 20 }}>
           <input icon='search'

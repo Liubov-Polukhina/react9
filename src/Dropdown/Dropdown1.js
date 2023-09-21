@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+
 import axios from 'axios';
 import { DropdownContainer, DropdownButton, DropdownContent, DropdownItem } from './Dropdown1.styles';
 
