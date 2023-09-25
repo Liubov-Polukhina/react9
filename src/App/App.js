@@ -6,6 +6,7 @@ import Pintura from '../Pintura/Pintura';
 import logo from "../img/logo.webp"
 import Dropdown1 from "../Dropdown/Dropdown1"
 import Info from '../Components/Info';
+import { Link } from 'react-router-dom';
 
 
 const App = () => {
@@ -111,11 +112,18 @@ const App = () => {
       <Side>
         <img src={logo} alt="" width={70} height={70} margin={10} />
 
-        <Routes>
-          <Route path="/info/" element={<Info />} />
-        </Routes>
+        {/* <Boton3>
+          <Routes>
+            <Route path="/info/" element={<Info />}> info </Route>
+          </Routes>
+        </Boton3> */}
 
-        <Boton3>INFO</Boton3>
+        {/* <Boton3>INFO</Boton3> */}
+        {/* <Boton3 as={Link} to={"/info/"}> INFO </Boton3> */}
+
+        <Boton3 onClick={() => { navigate('/info') }}> info </Boton3>
+
+
         <div style={{ padding: 20 }}>
           <input icon='search'
             placeholder='Search...'
